@@ -1,0 +1,2 @@
+website:https://www.worldometers.info/coronavirus/#countries
+interval_in_sec:60
