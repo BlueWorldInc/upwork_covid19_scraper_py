@@ -55,14 +55,91 @@ soup = BeautifulSoup(s, 'html.parser')
 soup = soup.find_all("table")[0]
 # soup = soup.find_all("tr", {'style': [None]}, limit=6)
 
-soup = soup.find_all("tr", {'style': [""]}, limit=1)
+# soup = soup.find_all("tr", {'style': [""]})
+soup = soup.find_all("tr")
+# soup.find_all("tr", {'style': [""]})
+
+# def total_row_world_class_only(css_class):
+    # return css_class is not None and css_class == 'total_row_world'
+
+
+
+# soup = soup.find_all("tr", class_="total_row_world")
+
+first_row_index = 0
+
+# for s in soup:
+# 	first_row_index += 1
+# 	if (s.has_attr('class')) and len(s['class']) == 1 and s['class'][0] == "total_row_world":
+# 		print(s['class'][0])
+# 		break
+
+# print(first_row_index)
+
+for s in soup:
+	if (s.has_attr("style")) and not (s.has_attr("class")):
+		f = s.find_all("td")
+		# if (len(f)) > 0 and s['style'] == "":
+		countryRank = f[0].string
+		countryName = f[1].string
+		totalCases = f[2].string
+		totalDeaths = f[3].string
+		newDeaths = f[4].string
+		totalRecovered = f[5].string
+		activeCases = f[6].string
+		seriousCritical = f[7].string
+		totCases1Mpop = f[8].string
+		deaths1Mpop = f[9].string
+		totalTests = f[10].string
+		tests1Mpop = f[11].string
+		population = f[12].string
+		print(countryRank)
+		# print(s['style'])
+
+# print(len(soup))
+
+# for s in soup:
+	# print(s.has_attr('style'))
+
+# for a in soup:
+	# print(a.find_all("td")[0].string)
+
+# countryRank = soup.find_all("td")[0].string
+# countryName = soup.find_all("td")[1].string
+# totalCases = soup.find_all("td")[2].string
+# totalDeaths = soup.find_all("td")[3].string
+# newDeaths = soup.find_all("td")[4].string
+# totalRecovered = soup.find_all("td")[5].string
+# activeCases = soup.find_all("td")[6].string
+# seriousCritical = soup.find_all("td")[7].string
+# totCases1Mpop = soup.find_all("td")[8].string
+# deaths1Mpop = soup.find_all("td")[9].string
+# totalTests = soup.find_all("td")[10].string
+# tests1Mpop = soup.find_all("td")[11].string
+# population = soup.find_all("td")[12].string
+
+# print(countryRank, end="    ")
+# print(countryName, end="    ")
+# print(totalCases, end="    ")
+# print(totalDeaths, end="    ")
+# print(newDeaths, end="    ")
+# print(totalRecovered, end="    ")
+# print(activeCases, end="    ")
+# print(seriousCritical, end="    ")
+# print(totCases1Mpop, end="    ")
+# print(deaths1Mpop, end="    ")
+# print(totalTests, end="    ")
+# print(tests1Mpop, end="    ")
+# print(population)
+
+# print(soup)
 
 # c = Country(totalCases = 500)
-c = Country("USA")
-c.activeCases = 100
+# c = Country("USA")
+# c.activeCases = 100
 
-print(c.activeCases)
-print(c.countryName)
+# print(c.activeCases)
+# print(c.countryName)
 
 
 # print(soup.tr)
