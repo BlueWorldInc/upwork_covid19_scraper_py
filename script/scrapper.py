@@ -12,12 +12,15 @@ and they lived at the bottom of a well.</p>
 """
 
 class Country:
-	def __init__(self, countryName = None, totalCases = None, totalDeaths = None, newDeaths = None, totalRecovered = None, activeCases = None, seriousCritical = None, totCases1Mpop = None, deaths1Mpop = None, totalTests = None, tests1Mpop = None, population = None):
+	def __init__(self, countryRank =  None, countryName = None, totalCases = None, newCases = None, totalDeaths = None, newDeaths = None, totalRecovered = None, newRecovered= None, activeCases = None, seriousCritical = None, totCases1Mpop = None, deaths1Mpop = None, totalTests = None, tests1Mpop = None, population = None):
+		self.countryRank = countryRank
 		self.countryName = countryName
 		self.totalCases = totalCases
+		self.newCases = newCases
 		self.totalDeaths = totalDeaths
 		self.newDeaths = newDeaths
 		self.totalRecovered = totalRecovered
+		self.newRecovered = newRecovered
 		self.activeCases = activeCases
 		self.seriousCritical = seriousCritical
 		self.totCases1Mpop = totCases1Mpop
@@ -25,6 +28,24 @@ class Country:
 		self.totalTests = totalTests
 		self.tests1Mpop = tests1Mpop
 		self.population = population
+
+	def to_string(self):
+		print(
+			self.countryRank,
+			self.countryName,
+			self.totalCases,
+			self.newCases,
+			self.totalDeaths,
+			self.newDeaths,
+			self.totalRecovered,
+			self.newRecovered,
+			self.activeCases,
+			self.seriousCritical,
+			self.totCases1Mpop,
+			self.deaths1Mpop,
+			self.totalTests,
+			self.tests1Mpop,
+			self.population)
 
 from bs4 import BeautifulSoup
 import urllib.request
@@ -52,7 +73,7 @@ s = open(file_name, "r", encoding="utf-8")
 soup = BeautifulSoup(s, 'html.parser')
 # print(soup.find_all(tr_with_void_style)[2])
 # print(soup.find("tr", style=''))
-soup = soup.find_all("table")[0]
+soup = soup.find_all("table")[1]
 # soup = soup.find_all("tr", {'style': [None]}, limit=6)
 
 # soup = soup.find_all("tr", {'style': [""]})
@@ -76,24 +97,29 @@ first_row_index = 0
 
 # print(first_row_index)
 
+countriesList = []
+
 for s in soup:
 	if (s.has_attr("style")) and not (s.has_attr("class")):
+		c = Country()
 		f = s.find_all("td")
 		# if (len(f)) > 0 and s['style'] == "":
-		countryRank = f[0].string
-		countryName = f[1].string
-		totalCases = f[2].string
-		totalDeaths = f[3].string
-		newDeaths = f[4].string
-		totalRecovered = f[5].string
-		activeCases = f[6].string
-		seriousCritical = f[7].string
-		totCases1Mpop = f[8].string
-		deaths1Mpop = f[9].string
-		totalTests = f[10].string
-		tests1Mpop = f[11].string
-		population = f[12].string
-		print(countryRank)
+		c.countryRank = f[0].string
+		c.countryName = f[1].string
+		c.totalCases = f[2].string
+		c.newCases = f[3].string
+		c.totalDeaths = f[4].string
+		c.newDeaths = f[5].string
+		c.totalRecovered = f[6].string
+		c.newRecovered = f[7].string
+		c.activeCases = f[8].string
+		c.seriousCritical = f[9].string
+		c.totCases1Mpop = f[10].string
+		c.deaths1Mpop = f[11].string
+		c.totalTests = f[12].string
+		c.tests1Mpop = f[13].string
+		c.population = f[14].string
+		c.to_string()
 		# print(s['style'])
 
 # print(len(soup))
