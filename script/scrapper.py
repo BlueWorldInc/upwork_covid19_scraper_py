@@ -11,6 +11,20 @@ and they lived at the bottom of a well.</p>
 <p class="story">...</p>
 """
 
+class Country:
+	def __init__(self, countryName = None, totalCases = None, totalDeaths = None, newDeaths = None, totalRecovered = None, activeCases = None, seriousCritical = None, totCases1Mpop = None, deaths1Mpop = None, totalTests = None, tests1Mpop = None, population = None):
+		self.countryName = countryName
+		self.totalCases = totalCases
+		self.totalDeaths = totalDeaths
+		self.newDeaths = newDeaths
+		self.totalRecovered = totalRecovered
+		self.activeCases = activeCases
+		self.seriousCritical = seriousCritical
+		self.totCases1Mpop = totCases1Mpop
+		self.deaths1Mpop = deaths1Mpop
+		self.totalTests = totalTests
+		self.tests1Mpop = tests1Mpop
+		self.population = population
 
 from bs4 import BeautifulSoup
 import urllib.request
@@ -31,9 +45,29 @@ file_name = "../csv_data/coronavirus_data.txt"
 # f.write(x.read().decode('utf-8'))
 # f.close()
 
+def tr_with_void_style(tag):
+    return tag.tr and tag.has_attr('style')
+
 s = open(file_name, "r", encoding="utf-8")
 soup = BeautifulSoup(s, 'html.parser')
-print(soup.title.string)
+# print(soup.find_all(tr_with_void_style)[2])
+# print(soup.find("tr", style=''))
+soup = soup.find_all("table")[0]
+# soup = soup.find_all("tr", {'style': [None]}, limit=6)
+
+soup = soup.find_all("tr", {'style': [""]}, limit=1)
+
+# c = Country(totalCases = 500)
+c = Country("USA")
+c.activeCases = 100
+
+print(c.activeCases)
+print(c.countryName)
+
+
+# print(soup.tr)
+
+
 
 # print("hello world")
 
