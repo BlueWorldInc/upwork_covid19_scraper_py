@@ -1,16 +1,3 @@
-html_doc = """<html><head><title>The Dormouse's story</title></head>
-<body>
-<p class="title"><b>The Dormouse's story</b></p>
-
-<p class="story">Once upon a time there were three little sisters; and their names were
-<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
-<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
-<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
-and they lived at the bottom of a well.</p>
-
-<p class="story">...</p>
-"""
-
 class Country:
 	def __init__(self, countryRank =  None, countryName = None, totalCases = None, newCases = None, totalDeaths = None, newDeaths = None, totalRecovered = None, newRecovered= None, activeCases = None, seriousCritical = None, totCases1Mpop = None, deaths1Mpop = None, totalTests = None, tests1Mpop = None, population = None):
 		self.countryRank = countryRank
@@ -47,10 +34,32 @@ class Country:
 			self.tests1Mpop,
 			self.population)
 
+	def to_csv(self, filepath, separator):
+		f = open(filepath, "a", encoding="utf-8")
+		separator = separator
+		newline = "\n"
+		csv_line = (str(self.countryRank) + separator
+					+ str(self.countryName) + separator
+					+ str(self.totalCases) + separator
+					+ str(self.newCases) + separator
+					+ str(self.totalDeaths) + separator
+					+ str(self.newDeaths) + separator
+					+ str(self.totalRecovered) + separator
+					+ str(self.newRecovered) + separator
+					+ str(self.activeCases) + separator
+					+ str(self.seriousCritical) + separator
+					+ str(self.totCases1Mpop) + separator
+					+ str(self.deaths1Mpop) + separator
+					+ str(self.totalTests) + separator
+					+ str(self.tests1Mpop) + separator
+					+ str(self.population) + newline)
+		f.write(csv_line)
+		f.close()
+
+
 from bs4 import BeautifulSoup
 import urllib.request
 
-soup = BeautifulSoup(html_doc, 'html.parser')
 # print(soup.title.string)
 
 
@@ -73,11 +82,10 @@ s = open(file_name, "r", encoding="utf-8")
 soup = BeautifulSoup(s, 'html.parser')
 # print(soup.find_all(tr_with_void_style)[2])
 # print(soup.find("tr", style=''))
-soup = soup.find_all("table")[1]
+
 # soup = soup.find_all("tr", {'style': [None]}, limit=6)
 
 # soup = soup.find_all("tr", {'style': [""]})
-soup = soup.find_all("tr")
 # soup.find_all("tr", {'style': [""]})
 
 # def total_row_world_class_only(css_class):
@@ -87,7 +95,7 @@ soup = soup.find_all("tr")
 
 # soup = soup.find_all("tr", class_="total_row_world")
 
-first_row_index = 0
+# first_row_index = 0
 
 # for s in soup:
 # 	first_row_index += 1
@@ -97,30 +105,113 @@ first_row_index = 0
 
 # print(first_row_index)
 
-countriesList = []
+# soup = soup.find_all("table")[0]
+# soup = soup.find_all("tr")
 
-for s in soup:
+main_table_countries_today = soup.find_all("table")[0].find_all("tr")
+main_table_countries_yesterday = soup.find_all("table")[1].find_all("tr")
+main_table_countries_yesterday2 = soup.find_all("table")[2].find_all("tr")
+
+list_countries_today = []
+list_countries_yesterday = []
+list_countries_yesterday2 = []
+
+for s in main_table_countries_today:
 	if (s.has_attr("style")) and not (s.has_attr("class")):
 		c = Country()
 		f = s.find_all("td")
-		# if (len(f)) > 0 and s['style'] == "":
-		c.countryRank = f[0].string
-		c.countryName = f[1].string
-		c.totalCases = f[2].string
-		c.newCases = f[3].string
-		c.totalDeaths = f[4].string
-		c.newDeaths = f[5].string
-		c.totalRecovered = f[6].string
-		c.newRecovered = f[7].string
-		c.activeCases = f[8].string
-		c.seriousCritical = f[9].string
-		c.totCases1Mpop = f[10].string
-		c.deaths1Mpop = f[11].string
-		c.totalTests = f[12].string
-		c.tests1Mpop = f[13].string
-		c.population = f[14].string
-		c.to_string()
-		# print(s['style'])
+		if len(f[0].contents) > 0: c.countryRank = f[0].contents[0].string
+		if len(f[1].contents) > 0: c.countryName = f[1].contents[0].string
+		if len(f[2].contents) > 0: c.totalCases = f[2].contents[0].string
+		if len(f[3].contents) > 0: c.newCases = f[3].contents[0].string
+		if len(f[4].contents) > 0: c.totalDeaths = f[4].contents[0].string.strip()
+		if len(f[5].contents) > 0: c.newDeaths = f[5].contents[0].string
+		if len(f[6].contents) > 0: c.totalRecovered = f[6].contents[0].string
+		if len(f[7].contents) > 0: c.newRecovered = f[7].contents[0].string
+		if len(f[8].contents) > 0: c.activeCases = f[8].contents[0].string
+		if len(f[9].contents) > 0: c.seriousCritical = f[9].contents[0].string
+		if len(f[10].contents) > 0: c.totCases1Mpop = f[10].contents[0].string
+		if len(f[11].contents) > 0: c.deaths1Mpop = f[11].contents[0].string
+		if len(f[12].contents) > 0: c.totalTests = f[12].contents[0].string
+		if len(f[13].contents) > 0: c.tests1Mpop = f[13].contents[0].string
+		if len(f[14].contents) > 0: c.population = f[14].contents[0].string
+		list_countries_today.append(c)
+
+for s in main_table_countries_yesterday:
+	if (s.has_attr("style")) and not (s.has_attr("class")):
+		c = Country()
+		f = s.find_all("td")
+		if len(f[0].contents) > 0: c.countryRank = f[0].contents[0].string
+		if len(f[1].contents) > 0: c.countryName = f[1].contents[0].string
+		if len(f[2].contents) > 0: c.totalCases = f[2].contents[0].string
+		if len(f[3].contents) > 0: c.newCases = f[3].contents[0].string
+		if len(f[4].contents) > 0: c.totalDeaths = f[4].contents[0].string.strip()
+		if len(f[5].contents) > 0: c.newDeaths = f[5].contents[0].string
+		if len(f[6].contents) > 0: c.totalRecovered = f[6].contents[0].string
+		if len(f[7].contents) > 0: c.newRecovered = f[7].contents[0].string
+		if len(f[8].contents) > 0: c.activeCases = f[8].contents[0].string
+		if len(f[9].contents) > 0: c.seriousCritical = f[9].contents[0].string
+		if len(f[10].contents) > 0: c.totCases1Mpop = f[10].contents[0].string
+		if len(f[11].contents) > 0: c.deaths1Mpop = f[11].contents[0].string
+		if len(f[12].contents) > 0: c.totalTests = f[12].contents[0].string
+		if len(f[13].contents) > 0: c.tests1Mpop = f[13].contents[0].string
+		if len(f[14].contents) > 0: c.population = f[14].contents[0].string
+		list_countries_yesterday.append(c)
+
+for s in main_table_countries_yesterday2:
+	if (s.has_attr("style")) and not (s.has_attr("class")):
+		c = Country()
+		f = s.find_all("td")
+		if len(f[0].contents) > 0: c.countryRank = f[0].contents[0].string
+		if len(f[1].contents) > 0: c.countryName = f[1].contents[0].string
+		if len(f[2].contents) > 0: c.totalCases = f[2].contents[0].string
+		if len(f[3].contents) > 0: c.newCases = f[3].contents[0].string
+		if len(f[4].contents) > 0: c.totalDeaths = f[4].contents[0].string.strip()
+		if len(f[5].contents) > 0: c.newDeaths = f[5].contents[0].string
+		if len(f[6].contents) > 0: c.totalRecovered = f[6].contents[0].string
+		if len(f[7].contents) > 0: c.newRecovered = f[7].contents[0].string
+		if len(f[8].contents) > 0: c.activeCases = f[8].contents[0].string
+		if len(f[9].contents) > 0: c.seriousCritical = f[9].contents[0].string
+		if len(f[10].contents) > 0: c.totCases1Mpop = f[10].contents[0].string
+		if len(f[11].contents) > 0: c.deaths1Mpop = f[11].contents[0].string
+		if len(f[12].contents) > 0: c.totalTests = f[12].contents[0].string
+		if len(f[13].contents) > 0: c.tests1Mpop = f[13].contents[0].string
+		if len(f[14].contents) > 0: c.population = f[14].contents[0].string
+		list_countries_yesterday2.append(c)
+
+# for c in list_countries_today:
+	# c.to_string()
+
+# for c in list_countries_today:
+	# c.to_string()
+# for c in list_countries_yesterday:
+	# c.to_string()
+# for c in list_countries_yesterday2:
+	# c.to_string()
+
+for c in list_countries_yesterday2:
+	c.to_csv("../csv_data/coronavirus_data.csv", ";")
+
+# c = list_countries_today[0]
+
+# f = open("../csv_data/coronavirus_data.csv", "w")
+# separator = " "
+# csv_line = c.countryRank + separator + c.countryName
+# f.write(csv_line)
+# f.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # print(len(soup))
 
@@ -169,13 +260,3 @@ for s in soup:
 
 
 # print(soup.tr)
-
-
-
-# print("hello world")
-
-
-# def hello():
-# 	print("hello")
-
-# hello()

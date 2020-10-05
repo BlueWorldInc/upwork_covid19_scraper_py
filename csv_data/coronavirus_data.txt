@@ -7271,23 +7271,38 @@ Columns <b class="caret"></b>
 <td>16,849</td><td>310,601</td><td>9</td>
 </tr>
 <tr style="">
+		self.countryRank = countryRank
 <td style="font-size:12px;color: grey;text-align:center;vertical-align:middle;">2</td>
+		self.countryName = countryName
 <td style="font-weight: bold; font-size:15px; text-align:left;"><a class="mt_a" href="country/us/">USA</a></td>
+		self.totalCases = totalCases
 <td style="font-weight: bold; text-align:right">7,549,323</td>
+		self.newCases = newCases
 <td style="font-weight: bold; text-align:right;background-color:#FFEEAA;">+51,403</td>
+		self.totalDeaths = totalDeaths
 <td style="font-weight: bold; text-align:right;">213,524 </td>
-<td style="font-weight: bold; 
-                                    text-align:right;background-color:red; color:white">+864</td>
+		self.newDeaths = newDeaths
+<td style="font-weight: bold; text-align:right;background-color:red; color:white">+864</td>
+		self.totalRecovered = totalRecovered
 <td style="font-weight: bold; text-align:right">4,776,824</td>
+		self.newRecovered = newRecovered
 <td style="font-weight: bold; text-align:right;background-color:#c8e6c9; color:#000">+40,203</td>
+		self.activeCases = activeCases
 <td style="text-align:right;font-weight:bold;">2,558,975</td>
+		self.seriousCritical = seriousCritical
 <td style="font-weight: bold; text-align:right">14,166</td>
+		self.totCases1Mpop = totCases1Mpop
 <td style="font-weight: bold; text-align:right">22,773</td>
+		self.deaths1Mpop = deaths1Mpop
 <td style="font-weight: bold; text-align:right">644</td>
+		self.totalTests = totalTests
 <td style="font-weight: bold; text-align:right">109,570,446</td>
+		self.tests1Mpop = tests1Mpop
 <td style="font-weight: bold; text-align:right">330,529</td>
+		self.population = population
 <td style="font-weight: bold; text-align:right"><a href="/world-population/us-population/">331,499,850</a> </td>
 <td style="display:none" data-continent="North America">North America</td>
+
 
 <td>44</td><td>1,553</td><td>3</td>
 </tr>
