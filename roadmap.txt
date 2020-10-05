@@ -1,0 +1,7 @@
+* Need to create an utility class that make the wool process of creating a file with a specific name and output in to that csv file
+* Need to bind the function to the config file
+* Optionnaly convert the config file to xml
+* Need to do the same that I have done with country with World total
+* Need to format the output with column name and have space between paragraphs
+* Need to make the github part
+* Need to clean the code and the repository
