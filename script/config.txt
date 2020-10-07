@@ -1,5 +1,0 @@
-website:https://www.worldometers.info/coronavirus/#countries
-interval_in_sec:60
-separator:"    "
-get_ride_of_space_in_totalDeaths:True
-with_headers:All #All, Once, Or None

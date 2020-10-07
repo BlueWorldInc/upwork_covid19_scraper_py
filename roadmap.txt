@@ -5,3 +5,27 @@
 * Need to format the output with column name and have space between paragraphs
 * Need to make the github part
 * Need to clean the code and the repository
+
+
+
+REX:
+Pour le fichier config j'ai utiliser ce site https://martin-thoma.com/configuration-files-in-python/
+J'ai essayer les différentes approche proposé pour crée un fichier de config.
+La première était l'utilisation d'un fichier python. 
+Cela me sembler le plus simple du fait qu'il y avait pas à importer de module extérieur.
+Mais celui ci est problématique à plusieurs égard. Premièrement il y a un warning qui est signaler par vs code
+lorsque j'écrit "import config_scrapper as cfg". Ensuite lorsque le code est éxécuter cela crée un fichier temporaire
+pycache. Ensuite si l'on compile l'application, ce fichier sera également compiler, donc illisibles pour des modifications
+ultérieurs. Enfin cela peut apparement poser des problèmes de sécurité liée aux mécanismes d'import de module
+(modification malicieuse des modules de la librarie python lors de l'import).
+La deuxième approche consister à utiliser un fichier JSON.
+Celui ci à deux désavantage. Le premier c'est que l'on ne peut pas commenter. Le deuxième c'est que l'on doit importer 
+un module externe (pas très grave en soit).
+La troisème approche est l'utilisation de YAML.
+Celui ci est pas mal mais à des désavantage. Premièrement il faut installer un module suplémentaire. Ensuite il y'aurais des 
+problèmes de formatages de ce language (différent formattage selon l'implémentation, pas de standard bien précis).
+Dernière approche utiliser, celui du configparser.
+Celui ci est native à Python. On peut ajouter des commentaires. Les deux petits désavantage c'est que l'on doit 
+crée obligatoirement des sections et qu'il n'y a pas de collorations syntaxiques comme YAML.
+C'est cet dernière que j'ai décider d'utiliser.
+
