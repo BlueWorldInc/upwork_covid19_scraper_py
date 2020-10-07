@@ -61,68 +61,74 @@ class Countries:
 		self.soup = soup
 		self.list_countries_all = [[], [], []]
 		self.list_world_total_all = []
+		self.column_header_list = [	"countryRank", "countryName", "totalCases", "newCases", "totalDeaths", "newDeaths",  \
+									"totalRecovered", "newRecovered", "activeCases", "seriousCritical", "totCases1Mpop", \
+									"deaths1Mpop", "totalTests", "tests1Mpop", "population"]
 		
 	def createCountries(self):
 		for i in range(3):
 			main_table_countries = self.soup.find_all("table")[i].find_all("tr")
-			for s in main_table_countries:
-				if (s.has_attr("style")) and not (s.has_attr("class")):
+			for tr in main_table_countries:
+				if (tr.has_attr("style")) and not (tr.has_attr("class")):
 					c = Country()
-					f = s.find_all("td")
-					if len(f[0].contents) > 0: c.countryRank = f[0].contents[0].string
-					if len(f[1].contents) > 0: c.countryName = f[1].contents[0].string
-					if len(f[2].contents) > 0: c.totalCases = f[2].contents[0].string
-					if len(f[3].contents) > 0: c.newCases = f[3].contents[0].string
-					if len(f[4].contents) > 0: c.totalDeaths = f[4].contents[0].string.strip()
-					if len(f[5].contents) > 0: c.newDeaths = f[5].contents[0].string
-					if len(f[6].contents) > 0: c.totalRecovered = f[6].contents[0].string
-					if len(f[7].contents) > 0: c.newRecovered = f[7].contents[0].string
-					if len(f[8].contents) > 0: c.activeCases = f[8].contents[0].string
-					if len(f[9].contents) > 0: c.seriousCritical = f[9].contents[0].string
-					if len(f[10].contents) > 0: c.totCases1Mpop = f[10].contents[0].string
-					if len(f[11].contents) > 0: c.deaths1Mpop = f[11].contents[0].string
-					if len(f[12].contents) > 0: c.totalTests = f[12].contents[0].string
-					if len(f[13].contents) > 0: c.tests1Mpop = f[13].contents[0].string
-					if len(f[14].contents) > 0: c.population = f[14].contents[0].string
+					td_list = tr.find_all("td")
+					self.fillCountryInfo(c, td_list)
 					self.list_countries_all[i].append(c)
 
 	def createWorldTotal(self):
 		for i in range(3):
-			for s in self.soup.find_all("table")[i].find_all("tr"):
-				if (s.has_attr("class")) and s["class"][0] == "total_row_world" and len(s["class"]) == 1:
+			for tr in self.soup.find_all("table")[i].find_all("tr"):
+				if (tr.has_attr("class")) and tr["class"][0] == "total_row_world" and len(tr["class"]) == 1:
 					worldTotal = Country()
-					f = s.find_all("td")
-					if len(f[0].contents) > 0: worldTotal.countryRank = f[0].contents[0].string
-					if len(f[1].contents) > 0: worldTotal.countryName = f[1].contents[0].string
-					if len(f[2].contents) > 0: worldTotal.totalCases = f[2].contents[0].string
-					if len(f[3].contents) > 0: worldTotal.newCases = f[3].contents[0].string
-					if len(f[4].contents) > 0: worldTotal.totalDeaths = f[4].contents[0].string.strip()
-					if len(f[5].contents) > 0: worldTotal.newDeaths = f[5].contents[0].string
-					if len(f[6].contents) > 0: worldTotal.totalRecovered = f[6].contents[0].string
-					if len(f[7].contents) > 0: worldTotal.newRecovered = f[7].contents[0].string
-					if len(f[8].contents) > 0: worldTotal.activeCases = f[8].contents[0].string
-					if len(f[9].contents) > 0: worldTotal.seriousCritical = f[9].contents[0].string
-					if len(f[10].contents) > 0: worldTotal.totCases1Mpop = f[10].contents[0].string
-					if len(f[11].contents) > 0: worldTotal.deaths1Mpop = f[11].contents[0].string
-					if len(f[12].contents) > 0: worldTotal.totalTests = f[12].contents[0].string
-					if len(f[13].contents) > 0: worldTotal.tests1Mpop = f[13].contents[0].string
-					if len(f[14].contents) > 0: worldTotal.population = f[14].contents[0].string
+					td_list = tr.find_all("td")
+					self.fillCountryInfo(worldTotal, td_list)
 					self.list_world_total_all.append(worldTotal)
+
+	def fillCountryInfo(self, country, td_list):
+		if len(td_list[0].contents) > 0: country.countryRank = td_list[0].contents[0].string
+		if len(td_list[1].contents) > 0: country.countryName = td_list[1].contents[0].string
+		if len(td_list[2].contents) > 0: country.totalCases = td_list[2].contents[0].string
+		if len(td_list[3].contents) > 0: country.newCases = td_list[3].contents[0].string
+		if len(td_list[4].contents) > 0: country.totalDeaths = td_list[4].contents[0].string.strip()
+		if len(td_list[5].contents) > 0: country.newDeaths = td_list[5].contents[0].string
+		if len(td_list[6].contents) > 0: country.totalRecovered = td_list[6].contents[0].string
+		if len(td_list[7].contents) > 0: country.newRecovered = td_list[7].contents[0].string
+		if len(td_list[8].contents) > 0: country.activeCases = td_list[8].contents[0].string
+		if len(td_list[9].contents) > 0: country.seriousCritical = td_list[9].contents[0].string
+		if len(td_list[10].contents) > 0: country.totCases1Mpop = td_list[10].contents[0].string
+		if len(td_list[11].contents) > 0: country.deaths1Mpop = td_list[11].contents[0].string
+		if len(td_list[12].contents) > 0: country.totalTests = td_list[12].contents[0].string
+		if len(td_list[13].contents) > 0: country.tests1Mpop = td_list[13].contents[0].string
+		if len(td_list[14].contents) > 0: country.population = td_list[14].contents[0].string
 	
 	def worldTotal_to_csv(self, filepath, separator):
-		for w in self.list_world_total_all:
+		titles = ["World Total Today:", "World Total Yesterday:", "World Total Yesterday 2:"]
+		header = ';'.join(self.column_header_list)
+		for index, w in enumerate(self.list_world_total_all):
+			self.add_line_text(filepath, titles[index])
+			self.add_line_text(filepath, header)
 			w.to_csv(filepath, separator)
-			self.add_new_line(filepath, separator)
+			self.add_new_line(filepath)
 
 	def countries_to_csv(self, filepath, separator):
-		for i in self.list_countries_all:
-			for c in i:
+		titles = ["Countries Today:", "Countries Yesterday:", "Countries Yesterday 2:"]
+		header = ';'.join(self.column_header_list)
+		for index, countries in enumerate(self.list_countries_all):
+			self.add_line_text(filepath, titles[index])
+			self.add_line_text(filepath, header)
+			for c in countries:
 				c.to_csv(filepath, separator)
-			self.add_new_line(filepath, separator)
+			self.add_new_line(filepath)
 
-	def add_new_line(self, filepath, separator):
+	def add_new_line(self, filepath):
 		f = open(filepath, "a", encoding="utf-8")
 		f.write("\n")
+		f.close()
+	
+	def add_line_text(self, filepath, text):
+		f = open(filepath, "a", encoding="utf-8")
+		text += "\n"
+		f.write(text)
 		f.close()
 
 

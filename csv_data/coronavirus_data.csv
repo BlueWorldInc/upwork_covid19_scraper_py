@@ -1,3 +1,5 @@
+World Total Today:
+countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
 1;USA;7,570,742;+21,419;213,758;+234;4,782,593;+5,769;2,574,391;14,177;22,838;645;109,821,966;331,288;331,499,850
 2;India;6,509,916;+37,982;101,211;+336;5,466,344;+41,267;942,361;8,944;4,706;73;77,850,403;56,272;1,383,456,294
 3;Brazil;4,882,231;None;145,431;None;4,232,593;None;504,207;8,318;22,927;683;17,900,000;84,059;212,945,646
@@ -215,6 +217,8 @@
 215;Solomon Islands;1;+1;;None;None;None;1;None;1;None;None;None;691,056
 216;China;85,434;+10;4,634;None;80,611;+10;189;2;59;3;160,000,000;111,163;1,439,323,776 
 
+World Total Yesterday:
+countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
 1;China;85,424;+10;4,634;None;80,601;+7;189;2;59;3;160,000,000;111,163;1,439,323,776 
 2;USA;7,549,323;+51,403;213,524;+864;4,776,824;+40,203;2,558,975;14,166;22,773;644;109,570,446;330,529;331,499,850
 3;India;6,471,934;+79,974;100,875;+1,071;5,425,077;+76,424;945,982;8,944;4,678;73;76,717,728;55,454;1,383,456,294
@@ -431,6 +435,8 @@
 214;MS Zaandam;9;None;2;None;None;None;7;None;None;None;None;None; 
 215;Anguilla;3;None;;None;3;None;0;None;200;None;1,020;67,833;15,037
 
+World Total Yesterday 2:
+countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
 1;China;85,414;+11;4,634;None;80,594;+16;186;2;59;3;160,000,000;111,163;1,439,323,776 
 2;USA;7,497,920;+47,482;212,660;+920;4,736,621;+36,915;2,548,639;14,190;22,618;642;108,431,960;327,095;331,499,850
 3;India;6,391,960;+81,693;99,804;+1,096;5,348,653;+78,646;943,503;8,944;4,620;72;75,619,781;54,660;1,383,456,294
