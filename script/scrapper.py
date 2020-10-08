@@ -87,19 +87,52 @@ class CountriesHandler:
 
 
 class Scrapper:
-	def __init__(self):
-		pass
+	def __init__(self, configPath):
+		cfg = configparser.ConfigParser()
+		cfg.read(configPath)
+		self.website = cfg["scrapper_config"]["website"].strip('"')
+		self.user_agent = cfg["scrapper_config"]["user_agent"].strip('"')
+		self.filepath = cfg["scrapper_config"]["filepath"].strip('"')
+		self.interval_in_sec = int(cfg["scrapper_config"]["interval_in_sec"])
+		self.separator = cfg["scrapper_config"]["separator"].strip('"')
+		self.get_ride_of_space_in_totalDeaths = bool(cfg["scrapper_config"]["get_ride_of_space_in_totalDeaths"])
+		self.with_headers = cfg["scrapper_config"]["with_headers"].strip('"')
+		self.website_content = None
+		self.soup = None
+
+	def extract_website_content(self):
+		headers = {}
+		headers['User-Agent'] = self.user_agent
+		print(self.website)
+		print('https://www.worldometers.info/coronavirus/#countries')
+		req = urllib.request.Request(self.website, headers = headers)
+		open_req = urllib.request.urlopen(req)
+		read_req = open_req.read().decode('utf-8')
+		self.website_content = read_req
+		self.soup = BeautifulSoup(self.website_content, 'html.parser')
+
+	def save_to_csv(self):
+		c = CountriesHandler(self.soup)
+		c.createCountries()
+		c.createWorldTotal()
+		c.countries_to_csv(self.filepath, self.separator)
+		c.worldTotal_to_csv("../csv_data/coronavirus_data_total.csv", self.separator)
+		
 
 from bs4 import BeautifulSoup
 import urllib.request
 # import config_scrapper as cfg
 import configparser
 
-cfg = configparser.ConfigParser()
-cfg.read("./config_scrapper.ini")
-ss = cfg["scrapper_config"]
-for a in ss:
-	print(ss[a])
+s = Scrapper("./config_scrapper.ini")
+s.extract_website_content()
+s.save_to_csv()
+
+# cfg = configparser.ConfigParser()
+# cfg.read("./config_scrapper.ini")
+# ss = cfg["scrapper_config"]
+# for a in ss:
+	# print(ss[a])
 	
 # headers = {}
 # headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"
@@ -108,7 +141,7 @@ for a in ss:
 # x = urllib.request.urlopen(req)
 # # print(x.read())
 
-file_name = "../csv_data/coronavirus_data.txt"
+# file_name = "../csv_data/coronavirus_data.txt"
 # f = open(file_name, "w", encoding="utf-8")
 # f.write(x.read().decode('utf-8'))
 # f.close()

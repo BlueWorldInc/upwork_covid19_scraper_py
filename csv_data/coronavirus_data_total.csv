@@ -10,3 +10,15 @@ World Total Yesterday 2:
 countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
 None;World;34,503,272;+314,568;1,027,138;+5,585;25,662,115;+239,842;7,814,019;66,076;4,426;131.8;None;None;None
 
+World Total Today:
+countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
+None    World    36,429,108    +47,448    1,061,144    +1,143    27,432,096    +29,339    7,935,868    67,469    4,674    136.1    None    None    None   
+
+World Total Yesterday:
+countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
+None    World    36,381,660    +343,386    1,060,001    +5,908    27,402,757    +262,751    7,918,902    67,420    4,667    136.0    None    None    None   
+
+World Total Yesterday 2:
+countryRank;countryName;totalCases;newCases;totalDeaths;newDeaths;totalRecovered;newRecovered;activeCases;seriousCritical;totCases1Mpop;deaths1Mpop;totalTests;tests1Mpop;population
+None    World    36,038,274    +313,096    1,054,093    +5,569    27,140,006    +274,934    7,844,175    67,784    4,623    135.2    None    None    None   
+
