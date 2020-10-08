@@ -56,8 +56,11 @@ class CountriesHandler:
 			if len(td_list[index].contents) > 0: country.headersDict[header] = td_list[index].contents[0].string.strip()
 	
 	def worldTotal_to_csv(self, filepath, separator):
+		timestamp = "Updated at :" + str(datetime.datetime.now())
 		titles = ["World Total Today:", "World Total Yesterday:", "World Total Yesterday 2:"]
-		header = ';'.join(self.column_header_list)
+		header = separator.join(self.column_header_list)
+		self.add_line_text(filepath, "----------------------------------------------------------------------------------")
+		self.add_line_text(filepath, timestamp)
 		for index, w in enumerate(self.list_world_total_all):
 			self.add_line_text(filepath, titles[index])
 			self.add_line_text(filepath, header)
@@ -65,8 +68,11 @@ class CountriesHandler:
 			self.add_new_line(filepath)
 
 	def countries_to_csv(self, filepath, separator):
+		timestamp = "Updated at :" + str(datetime.datetime.now())
 		titles = ["Countries Today:", "Countries Yesterday:", "Countries Yesterday 2:"]
-		header = ';'.join(self.column_header_list)
+		header = separator.join(self.column_header_list)
+		self.add_line_text(filepath, "----------------------------------------------------------------------------------")
+		self.add_line_text(filepath, timestamp)
 		for index, countries in enumerate(self.list_countries_all):
 			self.add_line_text(filepath, titles[index])
 			self.add_line_text(filepath, header)
@@ -92,7 +98,10 @@ class Scrapper:
 		cfg.read(configPath)
 		self.website = cfg["scrapper_config"]["website"].strip('"')
 		self.user_agent = cfg["scrapper_config"]["user_agent"].strip('"')
-		self.filepath = cfg["scrapper_config"]["filepath"].strip('"')
+		self.filepath_country = cfg["scrapper_config"]["filepath_country"].strip('"')
+		self.filepath_world = cfg["scrapper_config"]["filepath_world"].strip('"')
+		self.filepath_copy = cfg["scrapper_config"]["filepath_copy"].strip('"')
+		self.max_file_size_kb = int(cfg["scrapper_config"]["max_file_size_kb"])
 		self.interval_in_sec = int(cfg["scrapper_config"]["interval_in_sec"])
 		self.separator = cfg["scrapper_config"]["separator"].strip('"')
 		self.get_ride_of_space_in_totalDeaths = bool(cfg["scrapper_config"]["get_ride_of_space_in_totalDeaths"])
@@ -103,8 +112,6 @@ class Scrapper:
 	def extract_website_content(self):
 		headers = {}
 		headers['User-Agent'] = self.user_agent
-		print(self.website)
-		print('https://www.worldometers.info/coronavirus/#countries')
 		req = urllib.request.Request(self.website, headers = headers)
 		open_req = urllib.request.urlopen(req)
 		read_req = open_req.read().decode('utf-8')
@@ -115,18 +122,57 @@ class Scrapper:
 		c = CountriesHandler(self.soup)
 		c.createCountries()
 		c.createWorldTotal()
-		c.countries_to_csv(self.filepath, self.separator)
-		c.worldTotal_to_csv("../csv_data/coronavirus_data_total.csv", self.separator)
+		c.countries_to_csv(self.filepath_country, self.separator)
+		c.worldTotal_to_csv(self.filepath_world, self.separator)
+
+	def update_data(self):
+		starttime = time.time()
+		while True:
+			COLOR_OKGREEN = '\033[92m'
+			COLOR_ENDC = '\033[0m'
+			print(f"{COLOR_OKGREEN}Extracting...{COLOR_ENDC}")
+			self.extract_website_content()
+			print(f"{COLOR_OKGREEN}Saving...{COLOR_ENDC}")
+			self.save_to_csv()
+			time.sleep(self.interval_in_sec - ((time.time() - starttime) % self.interval_in_sec))
+			self.copy_file()
+
+	def copy_file(self):
+		COLOR_OKGREEN = '\033[92m'
+		COLOR_ENDC = '\033[0m'
+		filepahts = [self.filepath_country, self.filepath_world]
+		for filepath in filepahts:
+			if (Path(filepath).stat().st_size / 1000 > self.max_file_size_kb):
+				print(f"{COLOR_OKGREEN}Copying...{COLOR_ENDC}")
+				if (filepath == self.filepath_country):
+					copyFilePath = self.filepath_copy + "coronavirus_data_countries_save_" + \
+						datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".csv"
+				if (filepath == self.filepath_world):
+					copyFilePath = self.filepath_copy + "coronavirus_data_world_total_save_" + \
+						datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".csv"
+
+				shutil.copy2(filepath, copyFilePath)
+
+				print(f"{COLOR_OKGREEN}Cleaning...{COLOR_ENDC}")
+				f = open(self.filepath_country, "w")
+				f.truncate()
+				f.close()
+
 		
 
 from bs4 import BeautifulSoup
+from pathlib import Path
 import urllib.request
-# import config_scrapper as cfg
 import configparser
+import time
+import datetime
+import shutil
 
 s = Scrapper("./config_scrapper.ini")
-s.extract_website_content()
-s.save_to_csv()
+# s.extract_website_content()
+# s.save_to_csv()
+s.update_data()
+# s.check_file_size()
 
 # cfg = configparser.ConfigParser()
 # cfg.read("./config_scrapper.ini")
